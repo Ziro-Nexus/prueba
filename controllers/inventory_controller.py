@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from models.inventory_model import Inventory
 from repository.inventory_repository import InventoryRepository
 from models.db import db
@@ -10,7 +10,9 @@ inventory_service = Blueprint('inventory_service', __name__)
 @inventory_service.route('/')
 def index():
     devices = Inventory.query.all()
-    return jsonify([{'id': d.id, 'name': d.name, 'price': str(d.price)} for d in devices])
+    
+    # Pass the devices list to the template
+    return render_template('index.html', items=devices)
 
 
 @inventory_service.route('/<id>')
