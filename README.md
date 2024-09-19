@@ -11,6 +11,13 @@ Demostration handling CRUD operations in a dockerized python web app.
 - flask
 - flask_sqlalchemy
 
+## Routes
+- "/" -> Jinja2 template that list all object with interactive buttons to edit and delete
+- "/{id}" -> Get inventory item by id
+- "/add" -> Accepts JSON, add new inventory item
+- "/edit/{id}" -> Accepts JSON, update existing inventory item by id
+- "/delete/{id}" -> Delete existing inventory item by id
+
 ## Explanation of folders
 - Controllers: folder that contain controller files to handle the route of the API
 - models: folder that contain all the models defined in the database and configured with SQlAlchemy
