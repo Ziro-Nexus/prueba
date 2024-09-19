@@ -23,3 +23,6 @@ Demostration handling CRUD operations in a dockerized python web app.
 ```bash
 docker-compose up --build
 ```
+
+Go to https://localhost:5000 to interact with the interface.
+
