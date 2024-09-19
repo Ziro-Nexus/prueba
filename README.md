@@ -31,3 +31,5 @@ mysql-1  | 2024-09-19T12:37:32.953841Z 0 [System] [MY-010931] [Server] /usr/sbin
 
 - Go to http://localhost:5000 to interact with the interface.
 
+Database username: testing
+Database password: testing
