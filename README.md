@@ -29,5 +29,5 @@ docker-compose up --build
 mysql-1  | 2024-09-19T12:37:32.953841Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '9.0.1'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL. 
 ```
 
-- Go to https://localhost:5000 to interact with the interface.
+- Go to http://localhost:5000 to interact with the interface.
 
