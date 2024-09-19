@@ -43,16 +43,17 @@
                     </p>
 
                     <button class="btn btn-danger delete-btn" data-id="{{ device.id }}">Delete</button>
-                    <button data-toggle="modal" data-target="#edit_modal" class="btn btn-warning edit-btn" data-id="{{ device.id }}">Edit</button>
+                    <button data-toggle="modal" data-target="#edit_modal" class="btn btn-warning edit-btn"
+                        data-id="{{ device.id }}">Edit</button>
                 </div>
             </div>
         </div>
         {% else %}
         {% endfor %}
+    </div>
 
 
-    </div>
-    </div>
+
 
 
     <div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="add_modal" aria-hidden="true">
@@ -117,61 +118,63 @@
 
 
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="edit_modal">Administrador</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Add new item</h5>
-                        <p class="card-text">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_modal">Administrador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Add new item</h5>
+                            <p class="card-text">
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><strong>Name:</strong></label>
-                            <input type="text" class="form-control" id="edit_name" placeholder="Enter name">
-                        </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label"><strong>Name:</strong></label>
+                                <input type="text" class="form-control" id="edit_name" placeholder="Enter name">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="price" class="form-label"><strong>Price:</strong></label>
-                            <input type="number" class="form-control" id="edit_price" placeholder="Enter price">
-                        </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label"><strong>Price:</strong></label>
+                                <input type="number" class="form-control" id="edit_price" placeholder="Enter price">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label"><strong>Description:</strong></label>
-                            <input type="text" class="form-control" id="edit_description" placeholder="Enter description">
-                        </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label"><strong>Description:</strong></label>
+                                <input type="text" class="form-control" id="edit_description"
+                                    placeholder="Enter description">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="mac_address" class="form-label"><strong>MAC Address:</strong></label>
-                            <input type="text" class="form-control" id="edit_mac_address" placeholder="Enter MAC Address">
-                        </div>
+                            <div class="mb-3">
+                                <label for="mac_address" class="form-label"><strong>MAC Address:</strong></label>
+                                <input type="text" class="form-control" id="edit_mac_address"
+                                    placeholder="Enter MAC Address">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="serial_number" class="form-label"><strong>Serial Number:</strong></label>
-                            <input type="text" class="form-control" id="edit_serial_number"
-                                placeholder="Enter Serial Number">
-                        </div>
+                            <div class="mb-3">
+                                <label for="serial_number" class="form-label"><strong>Serial Number:</strong></label>
+                                <input type="text" class="form-control" id="edit_serial_number"
+                                    placeholder="Enter Serial Number">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="manufacturer" class="form-label"><strong>Manufacturer:</strong></label>
-                            <input type="text" class="form-control" id="edit_manufacturer" placeholder="Enter Manufacturer">
+                            <div class="mb-3">
+                                <label for="manufacturer" class="form-label"><strong>Manufacturer:</strong></label>
+                                <input type="text" class="form-control" id="edit_manufacturer"
+                                    placeholder="Enter Manufacturer">
+                            </div>
+                            </p>
                         </div>
-                        </p>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="edit-btn" class="btn btn-primary"
-                    data-dismiss="modal">Save</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="edit-btn" class="btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div id="notification_success" class="notification_success">Item added successfully</div>

@@ -1,4 +1,62 @@
+// get edit button
+const editButton = document.getElementById("edit-btn");
 
+editButton.addEventListener('click', function(e) {
+
+    let name = document.getElementById('edit_name');
+    let price = document.getElementById("edit_price");
+    let description = document.getElementById('edit_description');
+    let mac_address = document.getElementById('edit_mac_address');
+    let serial_number = document.getElementById('edit_serial_number');
+    let manufacturer = document.getElementById('edit_manufacturer');
+
+    // get the data-id from the latest edit model triggered
+    let itemId = document.getElementById("edit_modal").getAttribute("data-id");
+
+    fetch(`/edit/${itemId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name.value,
+            price: price.value,
+            description: description.value,
+            mac_address: mac_address.value,
+            serial_number: serial_number.value,
+            manufacturer: manufacturer.value
+        })
+    }) 
+    .then(response => response.json())
+    .then(data => {
+        // get item card to update
+        let itemCardObject = document.getElementById(`card-${itemId}`);
+        let updatedObject = `
+        <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">${name.value}</h5>
+                        <p class="card-text">
+                            <strong>Price:</strong> ${price.value} <br>
+                            <strong>Description:</strong> ${description.value} <br>
+                            <strong>MAC Address:</strong> ${mac_address.value} <br>
+                            <strong>Serial Number:</strong> ${serial_number.value} <br>
+                            <strong>Manufacturer:</strong> ${manufacturer.value} <br>
+                        </p>
+
+                        <button class="btn btn-danger delete-btn" data-id="${itemId}">Delete</button>
+                        <button data-toggle="modal" data-target="#edit_modal" class="btn btn-warning edit-btn" data-id="${data["id"]}">Edit</button>
+                    </div>
+                </div>
+        `;
+        itemCardObject.innerHTML = updatedObject;
+
+        // reset delete trigger
+        deleteTrigger()
+
+        showNotificationSuccess("Data updated succesfully");
+    });
+
+});
 
 
 // Get add button
@@ -51,13 +109,21 @@ addButton.addEventListener('click', function (e) {
             let main_row = document.getElementById("row");
             main_row.innerHTML += new_item;
 
+            // reset fields for add modal
+            document.getElementById('name').value = "";
+            document.getElementById("price").value = 0;
+            document.getElementById('description').value = "";
+            document.getElementById('mac_address').value = "";
+            document.getElementById('serial_number').value = "";
+            document.getElementById('manufacturer').value = "";
+
             // reset the btn trigger for deletes
             deleteTrigger();
             editTrigger();
             showNotificationSuccess("item added succesfully");
         })
         .catch(error => console.error('Error:', error));
-})
+});
 
 
 // Get all delete buttons
@@ -67,23 +133,24 @@ function deleteTrigger() {
     deleteButtons.forEach(button => {
         button.addEventListener('click', function (e) {
             console.log("Delete triggered!");
-            const deviceId = this.getAttribute('data-id');
+            const itemId = this.getAttribute('data-id');
 
             // Send DELETE request
-            fetch(`/delete/${deviceId}`, {
+            fetch(`/delete/${itemId}`, {
                 method: 'DELETE',
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
-                        let element = document.getElementById(`card-${deviceId}`);
-                        element.remove();
-                        showNotificationSuccess("item deleted succesfully");
+                        let element = document.getElementById(`card-${itemId}`);
+                        if (element) {
+                            element.remove();
+                            showNotificationSuccess("item deleted succesfully");
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while trying to delete the device.');
                 });
         });
     });
@@ -97,10 +164,11 @@ function editTrigger() {
 
     editButtons.forEach(button => {
         button.addEventListener('click', function (e) {
-            const deviceId = this.getAttribute('data-id');
+            const itemId = this.getAttribute('data-id');
+            // pass the data-id to the current edit modal
+            let modal = document.getElementById("edit_modal").setAttribute("data-id", itemId);
 
-            // Send DELETE request
-            fetch(`/${deviceId}`, {
+            fetch(`/${itemId}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
@@ -114,7 +182,6 @@ function editTrigger() {
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while trying to delete the device.');
                 });
         });
     });
