@@ -5,7 +5,7 @@ Demostration handling CRUD operations in a dockerized python web app.
 ## Requirements
 - Python
 - Docker
-- Free 3306 port for dv
+- Free 3306 port for db
 
 ## Main Libraries
 - flask
