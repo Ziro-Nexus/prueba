@@ -1,7 +1,8 @@
 // get edit button
 const editButton = document.getElementById("edit-btn");
 
-editButton.addEventListener('click', function(e) {
+// handle edit submit
+editButton.addEventListener('click', function (e) {
 
     let name = document.getElementById('edit_name');
     let price = document.getElementById("edit_price");
@@ -26,17 +27,17 @@ editButton.addEventListener('click', function(e) {
             serial_number: serial_number.value,
             manufacturer: manufacturer.value
         })
-    }) 
-    .then(response => response.json())
-    .then(data => {
-        // get item card to update
-        let itemCardObject = document.getElementById(`card-${itemId}`);
-        let updatedObject = `
-        <div class="card mb-4">
+    })
+        .then(response => response.json())
+        .then(data => {
+            // get item card to update
+            let itemCardObject = document.getElementById(`card-${itemId}`);
+            let updatedObject = `
+                <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">${name.value}</h5>
                         <p class="card-text">
-                            <strong>Price:</strong> ${price.value} <br>
+                            <strong>Price:</strong> $${price.value} <br>
                             <strong>Description:</strong> ${description.value} <br>
                             <strong>MAC Address:</strong> ${mac_address.value} <br>
                             <strong>Serial Number:</strong> ${serial_number.value} <br>
@@ -48,13 +49,13 @@ editButton.addEventListener('click', function(e) {
                     </div>
                 </div>
         `;
-        itemCardObject.innerHTML = updatedObject;
+            itemCardObject.innerHTML = updatedObject;
 
-        // reset delete trigger
-        deleteTrigger()
+            // reset delete trigger
+            deleteTrigger()
 
-        showNotificationSuccess("Data updated succesfully");
-    });
+            showNotificationSuccess("Data updated succesfully");
+        });
 
 });
 
@@ -62,6 +63,8 @@ editButton.addEventListener('click', function(e) {
 // Get add button
 const addButton = document.getElementById("add-btn");
 
+
+// handle add submit
 addButton.addEventListener('click', function (e) {
 
     let name = document.getElementById('name');
@@ -87,13 +90,17 @@ addButton.addEventListener('click', function (e) {
     })
         .then(response => response.json())
         .then(data => {
-            let new_item = `
+
+            if (data.message) {
+                showNotificationError(`item "${name.value}" already exists`);
+            } else {
+                let new_item = `
             <div class="col-md-4", id="card-${data["id"]}">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">${data["name"]}</h5>
                         <p class="card-text">
-                            <strong>Price:</strong> ${data["price"]} <br>
+                            <strong>Price:</strong> $${data["price"]} <br>
                             <strong>Description:</strong> ${data["description"]} <br>
                             <strong>MAC Address:</strong> ${data["mac_address"]} <br>
                             <strong>Serial Number:</strong> ${data["serial_number"]} <br>
@@ -106,21 +113,24 @@ addButton.addEventListener('click', function (e) {
                 </div>
             </div>
             `
-            let main_row = document.getElementById("row");
-            main_row.innerHTML += new_item;
+                let main_row = document.getElementById("row");
+                main_row.innerHTML += new_item;
 
-            // reset fields for add modal
-            document.getElementById('name').value = "";
-            document.getElementById("price").value = 0;
-            document.getElementById('description').value = "";
-            document.getElementById('mac_address').value = "";
-            document.getElementById('serial_number').value = "";
-            document.getElementById('manufacturer').value = "";
+                // reset fields for add modal
+                document.getElementById('name').value = "";
+                document.getElementById("price").value = 0;
+                document.getElementById('description').value = "";
+                document.getElementById('mac_address').value = "";
+                document.getElementById('serial_number').value = "";
+                document.getElementById('manufacturer').value = "";
 
-            // reset the btn trigger for deletes
-            deleteTrigger();
-            editTrigger();
-            showNotificationSuccess("item added succesfully");
+                // reset the btn trigger for deletes
+                deleteTrigger();
+                editTrigger();
+                showNotificationSuccess("item added succesfully");
+            }
+
+
         })
         .catch(error => console.error('Error:', error));
 });
@@ -158,7 +168,7 @@ function deleteTrigger() {
 
 deleteTrigger();
 
-
+// get all edit buttons
 function editTrigger() {
     const editButtons = document.querySelectorAll('.edit-btn');
 
@@ -192,10 +202,19 @@ editTrigger();
 function showNotificationSuccess(msg) {
     const notification = document.getElementById('notification_success');
     notification.innerHTML = msg;
-    notification.style.display = 'block'; // Show the notification
+    notification.style.display = 'block';
 
     setTimeout(() => {
-        notification.style.display = 'none'; // Hide after 3 seconds
+        notification.style.display = 'none';
     }, 3000);
 }
 
+function showNotificationError(msg) {
+    const notification = document.getElementById('notification_error');
+    notification.innerHTML = msg;
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
+}
