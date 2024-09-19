@@ -24,5 +24,10 @@ Demostration handling CRUD operations in a dockerized python web app.
 docker-compose up --build
 ```
 
-Go to https://localhost:5000 to interact with the interface.
+- wait until mysql is ready
+```bash
+mysql-1  | 2024-09-19T12:37:32.953841Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '9.0.1'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL. 
+```
+
+- Go to https://localhost:5000 to interact with the interface.
 
