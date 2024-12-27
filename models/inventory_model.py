@@ -10,6 +10,9 @@ class Inventory(db.Model):
     serial_number = db.Column(db.String(255))
     manufacturer = db.Column(db.String(255))
     description = db.Column(db.Text)
+    container_id = db.Column(db.Integer, db.ForeignKey('Container.container_id'))
     
     def as_json(self):
         return jsonify({c.name: getattr(self, c.name) for c in self.__table__.columns})
+
+

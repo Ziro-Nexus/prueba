@@ -14,7 +14,7 @@ editButton.addEventListener('click', function (e) {
     // get the data-id from the latest edit model triggered
     let itemId = document.getElementById("edit_modal").getAttribute("data-id");
 
-    fetch(`/edit/${itemId}`, {
+    fetch(`/inventory/edit/${itemId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ addButton.addEventListener('click', function (e) {
     let serial_number = document.getElementById('serial_number');
     let manufacturer = document.getElementById('manufacturer');
 
-    fetch('/add', {
+    fetch('/inventory/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -146,7 +146,7 @@ function deleteTrigger() {
             const itemId = this.getAttribute('data-id');
 
             // Send DELETE request
-            fetch(`/delete/${itemId}`, {
+            fetch(`/inventory/delete/${itemId}`, {
                 method: 'DELETE',
             })
                 .then(response => response.json())
@@ -178,7 +178,7 @@ function editTrigger() {
             // pass the data-id to the current edit modal
             let modal = document.getElementById("edit_modal").setAttribute("data-id", itemId);
 
-            fetch(`/${itemId}`, {
+            fetch(`/inventory/${itemId}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
@@ -218,3 +218,18 @@ function showNotificationError(msg) {
         notification.style.display = 'none';
     }, 3000);
 }
+
+
+// logic for search term
+let search_input = document.getElementById("search_items_input_trigger");
+search_input.addEventListener("change", (e) => {
+    let search_term = search_input.value;
+    
+    console.log(search_term);
+    if (search_term) {
+        window.location.href = `/inventory/search/${search_term}`;
+    } else {
+        window.location.href = `/`;
+    }
+    
+})

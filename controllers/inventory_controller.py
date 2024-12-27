@@ -1,12 +1,18 @@
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request, render_template, redirect, url_for, flash
 from models.inventory_model import Inventory
 from repository.inventory_repository import InventoryRepository
 from models.db import db
 
 inventory_service = Blueprint('inventory_service', __name__)
 
+
 @inventory_service.route('/')
 def index():
+    return redirect(url_for("inventory.index_inventory"))
+
+
+@inventory_service.route('/inventory')
+def index_inventory():
     """
     Render the index page with a list of all inventory items.
 
@@ -17,7 +23,7 @@ def index():
     return render_template('index.html', items=items)
 
 
-@inventory_service.route('/<id>')
+@inventory_service.route('/inventory/<id>')
 def get_by_id(id):
     """
     Retrieve an inventory item by its ID.
@@ -38,7 +44,28 @@ def get_by_id(id):
         return jsonify({'message': str(e)}), 201
 
 
-@inventory_service.route('/add', methods=["POST"])
+@inventory_service.route('/inventory/search/<searchterm>', methods=["GET"])
+def get_by_search(searchterm):
+    """
+    Retrieve an inventory item by its ID.
+
+    Parameters:
+    id (int): The ID of the inventory item to retrieve.
+
+    Returns:
+    JSON: The retrieved inventory item in JSON format.
+    
+    Raises:
+    Exception: If the item with the given ID does not exist, a 201 status code with an error message is returned.
+    """
+    try:
+        items = InventoryRepository.get_by_search(search_term=searchterm)
+        return render_template('index.html', items=items)
+    except Exception as e:
+        return jsonify({'message': str(e)}), 201
+
+
+@inventory_service.route('/inventory/add', methods=["POST"])
 def add():
     """
     Add a new inventory item to the database.
@@ -63,7 +90,7 @@ def add():
         return jsonify({'message': str(e)}), 500
 
 
-@inventory_service.route('/delete/<id>', methods=["DELETE"])
+@inventory_service.route('/inventory/delete/<id>', methods=["DELETE"])
 def delete(id):
     """
     Delete an inventory item by its ID.
@@ -84,7 +111,7 @@ def delete(id):
         return jsonify({'message': str(e)}), 201
 
 
-@inventory_service.route('/edit/<id>', methods=["PUT"])
+@inventory_service.route('/inventory/edit/<id>', methods=["PUT"])
 def edit(id):
     """
     Edit an existing inventory item with new data.

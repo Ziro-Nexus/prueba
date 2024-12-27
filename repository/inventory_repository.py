@@ -78,6 +78,16 @@ class InventoryRepository:
             raise Exception("Element does not exist")
         else:
             return existing
+        
+
+    def get_by_search(search_term):
+        pattern = f"%{search_term}%"
+        matching_items = Inventory.query.filter(Inventory.name.ilike(pattern)).all()
+        if matching_items is None:
+            raise Exception("Element does not exist")
+        else:
+            return matching_items
+
 
     def delete_inventory_item_by_id(id):
         """
